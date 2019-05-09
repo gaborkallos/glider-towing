@@ -52,10 +52,9 @@ public class FlightController {
 
 
     @PutMapping("/")
-    public String updateFlights(int id){
+    public String updateFlights(@RequestBody Integer id){
         flightService.update(id);
-        System.out.println(id);
-        return "index";
+        return "redirect:index";
     }
 
 

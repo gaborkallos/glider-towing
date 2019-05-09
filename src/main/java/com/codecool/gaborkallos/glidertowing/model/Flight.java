@@ -1,10 +1,18 @@
 package com.codecool.gaborkallos.glidertowing.model;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Data
 @NoArgsConstructor
@@ -24,17 +32,13 @@ public class Flight {
     private LocalDateTime LandingTime;
     private Long price;
 
-    public Flight(Glider glider, TowingAirplane towingAirplane) {
-        this.glider = glider;
-        this.towingAirplane = towingAirplane;
-        setPrice(glider);
-    }
+    public void setPrice(Flight flight) {
 
-    public void setPrice(Glider glider) {
-        if (glider.getCategory().equals(Category.WITHWATERBALLAST)) {
-            this.price = 1600L;
-        } else if (glider.getCategory().equals(Category.WITHOUTWATERBALLAST)) {
-            this.price = 1400L;
+        long diff = Duration.between(flight.takeOffTime, flight.LandingTime).toMinutes();
+        if (flight.getGlider().getCategory().equals(Category.WITHWATERBALLAST)) {
+            this.price = 1600L*diff;
+        } else if (flight.getGlider().getCategory().equals(Category.WITHOUTWATERBALLAST)) {
+            this.price = 1400L*diff;
         }
     }
 }

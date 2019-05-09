@@ -21,15 +21,16 @@ public class FlightService {
    public void update(int id){
        List<Flight> flights = flightRepository.findAll();
        for(Flight flight : flights){
-           if (flight.getId().equals(id)){
+           if (flight.getId() == (id)){
                if(flight.getTakeOffTime()==null){
                    flight.setTakeOffTime(LocalDateTime.now());
-                   System.out.println(flight.getTakeOffTime());
+                   flightRepository.save(flight);
                    break;
                }
                else if(flight.getTakeOffTime()!=null){
                    flight.setLandingTime(LocalDateTime.now());
-                   System.out.println(flight.getLandingTime());
+                   flight.setPrice(flight);
+                   flightRepository.save(flight);
                    break;
                }
            }

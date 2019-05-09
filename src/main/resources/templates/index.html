@@ -27,8 +27,8 @@
     <link rel="stylesheet" type="text/css" href="css/custom.css"/>
 
     <!-- JavaScript files -->
-    <script defer src="javascript/main.js"></script>
-    <script defer src="javascript/startStop.js"></script>
+    <script src="javascript/main.js" defer></script>
+    <script src="javascript/startStop.js" defer></script>
 
 </head>
 <body>
@@ -55,7 +55,7 @@
 
     </div>
     <div>
-        <table class="table .table-striped ">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th>Glider Reg.No.</th>
@@ -65,19 +65,20 @@
                 <th>Take off date-time</th>
                 <th>Landing date-time</th>
                 <th>Price of towing</th>
+                <th>Status</th>
             </tr>
             </thead>
             <tbody>
-            <div class="col col-sm-12 col-md-6 col-lg-4" th:each="flight,iterStat : ${flights}">
+            <div th:each="flight,iterStat : ${flights}">
                 <tr>
-                    <td th:text="${flight.getGlider().getRegistrationNumber()}"></td>
-                    <td th:text="${flight.getGlider().getRaceNumber()}"></td>
-                    <td th:text="${flight.getGlider().getPilotName()}"></td>
-                    <td th:text="${flight.getTowingAirplane().getRegistrationNumber()}"></td>
-                    <td th:text="${flight.getTakeOffTime()}"></td>
-                    <td th:text="${flight.getLandingTime()}"></td>
+                    <td th:text="${flight.getGlider().getRegistrationNumber()}">REG NO</td>
+                    <td th:text="${flight.getGlider().getRaceNumber()}">RACE NO</td>
+                    <td th:text="${flight.getGlider().getPilotName()}">PILOT NAME</td>
+                    <td th:text="${flight.getTowingAirplane().getRegistrationNumber()}">TOW REG NO</td>
+                    <td th:text="${{flight.getTakeOffTime()}}">TAKE OFF</td>
+                    <td th:text="${{flight.getLandingTime()}}">LANDING</td>
                     <div th:if="${flight.getPrice()!=null}">
-                        <td th:text="${flight.getPrice()}"></td>
+                        <td th:text="${flight.getPrice() + 'Ft'}"></td>
                     </div>
                     <div th:if="${flight.getPrice()==null}">
                         <td>0Ft</td>
@@ -86,8 +87,11 @@
                         <div th:if="${flight.getTakeOffTime()==null}">
                             <button class="btn btn-success startTow" th:value="${flight.getId()}">Start</button>
                         </div>
-                        <div th:if="${flight.getTakeOffTime()!=null}">
+                        <div th:if="${flight.getTakeOffTime()!=null and flight.getLandingTime()==null}">
                             <button class="btn btn-danger stopTow" th:value="${flight.getId()}">Stop</button>
+                        </div>
+                        <div th:if="${flight.getTakeOffTime()!=null and flight.getLandingTime()!=null}">
+                            <p>DONE</p>
                         </div>
                     </td>
                 </tr>

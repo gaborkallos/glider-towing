@@ -1,11 +1,10 @@
 package com.codecool.gaborkallos.glidertowing.controller;
 
 import com.codecool.gaborkallos.glidertowing.model.Flight;
+import com.codecool.gaborkallos.glidertowing.model.TowingAirplane;
 import com.codecool.gaborkallos.glidertowing.service.FlightService;
 import com.codecool.gaborkallos.glidertowing.service.GliderService;
 import com.codecool.gaborkallos.glidertowing.service.TowingAirplaneService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ public class AirplaneController {
     private TowingAirplaneService towingAirplaneService;
     private FlightService flightService;
 
-    private static final Logger logger = LoggerFactory.getLogger(FlightController.class);
 
     @Autowired
     public void setFlightService(FlightService flightService) {
@@ -39,11 +37,16 @@ public class AirplaneController {
 
     @RequestMapping(value = "/airplane", method = RequestMethod.POST)
     public void addFlight(@RequestBody Flight flight) {
-        gliderService.save(flight.getGlider());
-        towingAirplaneService.save(flight.getTowingAirplane());
+        if (!gliderService.gliderIsExist(flight.getGlider())) {
+            gliderService.save(flight.getGlider());
+        }
+        TowingAirplane towing = towingAirplaneService.findTowing(flight);
+        if(towing!=null){
+            flight.setTowingAirplane(towing);
+        }else{
+            towingAirplaneService.save(flight.getTowingAirplane());
+        }
         flightService.save(flight);
-
-
     }
 
 }

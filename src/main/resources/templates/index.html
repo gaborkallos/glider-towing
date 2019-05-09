@@ -40,8 +40,8 @@
                 <td>Glider Race.No.: <input type="text" id="gliderRace" required></td>
                 <td>Glider Pilot Name: <input type="text" id="pilotName" required></td>
                 <td>Glider Category: <select id="category" class="form-control" required>
-                    <option th:value="${categories.get(0)}"> With water ballast</option>
-                    <option th:value="${categories.get(1)}"> Without water ballast</option>
+                    <option th:value="${categories.get(0)}"> With ballast</option>
+                    <option th:value="${categories.get(1)}"> Without ballast</option>
                 </select>
                 </td>
                 <td>Towing Reg.No.: <input type="text" id="towingReg" required></td>
@@ -61,6 +61,7 @@
                 <th>Glider Reg.No.</th>
                 <th>Glider Race.No.</th>
                 <th>Glider Pilot Name</th>
+                <th>Category</th>
                 <th>Towing Reg.No.</th>
                 <th>Take off date-time</th>
                 <th>Landing date-time</th>
@@ -74,6 +75,13 @@
                     <td th:text="${flight.getGlider().getRegistrationNumber()}">REG NO</td>
                     <td th:text="${flight.getGlider().getRaceNumber()}">RACE NO</td>
                     <td th:text="${flight.getGlider().getPilotName()}">PILOT NAME</td>
+                    <!--<td th:text="${flight.getGlider().getCategory()}"></td>-->
+                    <div th:if="${flight.getGlider().getCategory().equals(flight.getGlider().getCategory().WITHWATERBALLAST)}">
+                        <td>With ballast</td>
+                    </div>
+                    <div th:if="${flight.getGlider().getCategory().equals(flight.getGlider().getCategory().WITHOUTWATERBALLAST)}">
+                        <td>Without ballast</td>
+                    </div>
                     <td th:text="${flight.getTowingAirplane().getRegistrationNumber()}">TOW REG NO</td>
                     <td th:text="${{flight.getTakeOffTime()}}">TAKE OFF</td>
                     <td th:text="${{flight.getLandingTime()}}">LANDING</td>

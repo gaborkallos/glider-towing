@@ -1,9 +1,12 @@
 package com.codecool.gaborkallos.glidertowing.controller;
 
 import com.codecool.gaborkallos.glidertowing.model.Flight;
+import com.codecool.gaborkallos.glidertowing.model.Glider;
+import com.codecool.gaborkallos.glidertowing.model.Pilot;
 import com.codecool.gaborkallos.glidertowing.model.TowingAirplane;
 import com.codecool.gaborkallos.glidertowing.service.FlightService;
 import com.codecool.gaborkallos.glidertowing.service.GliderService;
+import com.codecool.gaborkallos.glidertowing.service.PilotService;
 import com.codecool.gaborkallos.glidertowing.service.TowingAirplaneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +21,12 @@ public class AirplaneController {
     private GliderService gliderService;
     private TowingAirplaneService towingAirplaneService;
     private FlightService flightService;
+    private PilotService pilotService;
 
+    @Autowired
+    public void setPilotService(PilotService pilotService) {
+        this.pilotService = pilotService;
+    }
 
     @Autowired
     public void setFlightService(FlightService flightService) {
@@ -37,15 +45,30 @@ public class AirplaneController {
 
     @RequestMapping(value = "/airplane", method = RequestMethod.POST)
     public void addFlight(@RequestBody Flight flight) {
-        if (!gliderService.gliderIsExist(flight.getGlider())) {
+
+        TowingAirplane towing = towingAirplaneService.findTowing(flight);
+        Pilot pilot = pilotService.findPilot(flight);
+        Glider glider = gliderService.findGlider(flight);
+
+
+        if (pilot != null) {
+            flight.setGliderPilot(pilot);
+        } else {
+            pilotService.save(flight.getGliderPilot());
+        }
+
+        if (glider != null){
+            flight.setGlider(glider);
+        }else{
             gliderService.save(flight.getGlider());
         }
-        TowingAirplane towing = towingAirplaneService.findTowing(flight);
-        if(towing!=null){
+
+        if (towing != null) {
             flight.setTowingAirplane(towing);
-        }else{
+        } else {
             towingAirplaneService.save(flight.getTowingAirplane());
         }
+
         flightService.save(flight);
     }
 

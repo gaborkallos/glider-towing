@@ -18,36 +18,42 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
-   public void update(int id){
-       List<Flight> flights = flightRepository.findAll();
-       for(Flight flight : flights){
-           if (flight.getId() == (id)){
-               if(flight.getTakeOffTime()==null && !flight.getTowingAirplane().isFlying()){
-                   flight.getGlider().setFlying(true);
-                   flight.getTowingAirplane().setFlying(true);
-                   flight.setTakeOffTime(LocalDateTime.now());
-                   flightRepository.save(flight);
-                   break;
-               }
-               else if(flight.getTakeOffTime()!=null){
-                   flight.getGlider().setFlying(true);
-                   flight.getTowingAirplane().setFlying(true);
-                   flight.setLandingTime(LocalDateTime.now());
-                   flight.setPrice(flight);
-                   flightRepository.save(flight);
-                   break;
-               }else{
-                   //TODO: error handling
-               }
-           }
-       }
+    public void update(int id) {
+        List<Flight> flights = flightRepository.findAll();
+        for (Flight flight : flights) {
+            if (flight.getId() == (id)) {
+
+                if (flight.getTakeOffTime() == null &&
+                        !flight.getGlider().isFlying() &&
+                        !flight.getTowingAirplane().isFlying() &&
+                        !flight.getGliderPilot().isFlying()
+                ) {
+                    flight.getGliderPilot().setFlying(true);
+                    flight.getGlider().setFlying(true);
+                    flight.getTowingAirplane().setFlying(true);
+                    flight.setTakeOffTime(LocalDateTime.now());
+                    flightRepository.save(flight);
+                    break;
+                } else if (flight.getTakeOffTime() != null) {
+                    flight.getGliderPilot().setFlying(false);
+                    flight.getGlider().setFlying(false);
+                    flight.getTowingAirplane().setFlying(false);
+                    flight.setLandingTime(LocalDateTime.now());
+                    flight.setPrice(flight);
+                    flightRepository.save(flight);
+                    break;
+                } else {
+                    //TODO: error handling
+                }
+            }
+        }
     }
 
-    public List<Flight> allFlights(){
+    public List<Flight> allFlights() {
         return flightRepository.findAll();
     }
 
-    public void save(Flight flight){
+    public void save(Flight flight) {
         flightRepository.save(flight);
     }
 }

@@ -9,20 +9,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Entity
-public class Glider {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Pilot {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String registrationNumber;
-    private String raceNumber;
-    private Category category;
+    private String name;
     private boolean isFlying;
 
 }
+
+

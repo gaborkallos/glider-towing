@@ -27,6 +27,8 @@ public class Flight {
     @OneToOne
     private Glider glider;
     @OneToOne
+    private Pilot gliderPilot;
+    @OneToOne
     private TowingAirplane towingAirplane;
     private LocalDateTime takeOffTime;
     private LocalDateTime LandingTime;

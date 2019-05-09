@@ -14,11 +14,14 @@ window.onclick = function (event) {
 
 btn.addEventListener("click", function (ev) {
     let url = 'http://localhost:8080';
+    let pilot = {
+        name: document.getElementById("pilotName").value.toUpperCase(),
+        isFlying: false
+    };
 
     let glider = {
         registrationNumber: document.getElementById("gliderReg").value.toUpperCase(),
         raceNumber: document.getElementById("gliderRace").value.toUpperCase(),
-        pilotName: document.getElementById("pilotName").value.toUpperCase(),
         category: document.getElementById("category").value.toUpperCase(),
         isFlying: false
     };
@@ -31,9 +34,10 @@ btn.addEventListener("click", function (ev) {
     let flight = {
         glider: glider,
         towingAirplane: tow,
+        gliderPilot: pilot
     };
 
-    if (glider.registrationNumber != "" && glider.pilotName != "") {
+    if (glider.registrationNumber !== "" && pilot.name !== "") {
         fetch(url + "/airplane", {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(flight),

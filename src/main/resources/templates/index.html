@@ -32,7 +32,7 @@
 
 </head>
 <body>
-<div class="container">
+<div class="container conticlass">
     <div class="card">
         <table>
             <tr>
@@ -74,8 +74,7 @@
                 <tr>
                     <td th:text="${flight.getGlider().getRegistrationNumber()}">REG NO</td>
                     <td th:text="${flight.getGlider().getRaceNumber()}">RACE NO</td>
-                    <td th:text="${flight.getGlider().getPilotName()}">PILOT NAME</td>
-                    <!--<td th:text="${flight.getGlider().getCategory()}"></td>-->
+                    <td th:text="${flight.getGliderPilot().getName()}">PILOT NAME</td>
                     <div th:if="${flight.getGlider().getCategory().equals(flight.getGlider().getCategory().WITHWATERBALLAST)}">
                         <td>With ballast</td>
                     </div>

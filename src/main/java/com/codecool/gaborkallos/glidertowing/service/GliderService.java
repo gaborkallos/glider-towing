@@ -1,6 +1,7 @@
 package com.codecool.gaborkallos.glidertowing.service;
 
 import com.codecool.gaborkallos.glidertowing.model.Category;
+import com.codecool.gaborkallos.glidertowing.model.Flight;
 import com.codecool.gaborkallos.glidertowing.model.Glider;
 import com.codecool.gaborkallos.glidertowing.repository.GliderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +15,37 @@ import java.util.List;
 public class GliderService {
     private GliderRepository gliderRepository;
 
+
     @Autowired
-    public void setGliderRepository(GliderRepository gliderRepository){
+    public void setGliderRepository(GliderRepository gliderRepository) {
         this.gliderRepository = gliderRepository;
     }
 
 
-    public boolean gliderIsExist(Glider newGlider) {
+    public boolean isGliderExists(Glider newGlider) {
         List<Glider> gliders = gliderRepository.findAll();
         for (Glider glider : gliders) {
-            if (glider.getRegistrationNumber().equals(newGlider.getRegistrationNumber()) &&
-            glider.getPilotName().equals(newGlider.getPilotName())){
+            if (glider.getRegistrationNumber().equals(newGlider.getRegistrationNumber())) {
                 return true;
             }
         }
         return false;
     }
 
-    public List<Category> getCategories(){
+    public Glider findGlider(Flight flight) {
+        if (isGliderExists(flight.getGlider())) {
+            List<Glider> all = gliderRepository.findAll();
+            for (Glider glider : all) {
+                if (glider.getRegistrationNumber().equals(flight.getGlider().getRegistrationNumber())) {
+                    return glider;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public List<Category> getCategories() {
         return Arrays.asList(Category.values());
     }
 

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Glider Towing</title>
+    <!-- Bootstrap components -->
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+    <!--Latest compiled and minified Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <!-- End of Bootstrap components -->
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="css/custom.css"/>
+
+    <!-- JavaScript files -->
+    <script defer src="javascript/main.js"></script>
+    <script defer src="javascript/startStop.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <table>
+            <tr>
+                <td>Glider Reg.No.: <input type="text" id="gliderReg" required></td>
+                <td>Glider Race.No.: <input type="text" id="gliderRace" required></td>
+                <td>Glider Pilot Name: <input type="text" id="pilotName" required></td>
+                <td>Glider Category: <select id="category" class="form-control" required>
+                    <option th:value="${categories.get(0)}"> With water ballast</option>
+                    <option th:value="${categories.get(1)}"> Without water ballast</option>
+                </select>
+                </td>
+                <td>Towing Reg.No.: <input type="text" id="towingReg" required></td>
+                <td>
+                    <button id="newData" class="btn btn-primary">GO!</button>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <br>
+
+    </div>
+    <div>
+        <table class="table .table-striped ">
+            <thead>
+            <tr>
+                <th>Glider Reg.No.</th>
+                <th>Glider Race.No.</th>
+                <th>Glider Pilot Name</th>
+                <th>Towing Reg.No.</th>
+                <th>Take off date-time</th>
+                <th>Landing date-time</th>
+                <th>Price of towing</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div class="col col-sm-12 col-md-6 col-lg-4" th:each="flight,iterStat : ${flights}">
+                <tr>
+                    <td th:text="${flight.getGlider().getRegistrationNumber()}"></td>
+                    <td th:text="${flight.getGlider().getRaceNumber()}"></td>
+                    <td th:text="${flight.getGlider().getPilotName()}"></td>
+                    <td th:text="${flight.getTowingAirplane().getRegistrationNumber()}"></td>
+                    <td th:text="${flight.getTakeOffTime()}"></td>
+                    <td th:text="${flight.getLandingTime()}"></td>
+                    <div th:if="${flight.getPrice()!=null}">
+                        <td th:text="${flight.getPrice()}"></td>
+                    </div>
+                    <div th:if="${flight.getPrice()==null}">
+                        <td>0Ft</td>
+                    </div>
+                    <td>
+                        <div th:if="${flight.getTakeOffTime()==null}">
+                            <button class="btn btn-success startTow" th:value="${flight.getId()}">Start</button>
+                        </div>
+                        <div th:if="${flight.getTakeOffTime()!=null}">
+                            <button class="btn btn-danger stopTow" th:value="${flight.getId()}">Stop</button>
+                        </div>
+                    </td>
+                </tr>
+
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal" id="errorModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="close" data-dismiss="modal">&times;</p>
+                <p>Fill up all the fields!</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

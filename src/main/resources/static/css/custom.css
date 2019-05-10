@@ -37,6 +37,6 @@
     cursor: pointer;
 }
 
-.conticlass{
-    width: 800px !important;
+.select{
+    width: fit-content;
 }

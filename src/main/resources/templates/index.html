@@ -32,14 +32,14 @@
 
 </head>
 <body>
-<div class="container conticlass">
-    <div class="card">
+<div class="container">
+    <div class="">
         <table>
             <tr>
                 <td>Glider Reg.No.: <input type="text" id="gliderReg" required></td>
                 <td>Glider Race.No.: <input type="text" id="gliderRace" required></td>
                 <td>Glider Pilot Name: <input type="text" id="pilotName" required></td>
-                <td>Glider Category: <select id="category" class="form-control" required>
+                <td>Glider Category: <select id="category" class="form-control select" required>
                     <option th:value="${categories.get(0)}"> With ballast</option>
                     <option th:value="${categories.get(1)}"> Without ballast</option>
                 </select>
@@ -88,7 +88,7 @@
                         <td th:text="${flight.getPrice() + 'Ft'}"></td>
                     </div>
                     <div th:if="${flight.getPrice()==null}">
-                        <td>0Ft</td>
+                        <td>N/A</td>
                     </div>
                     <td>
                         <div th:if="${flight.getTakeOffTime()==null}">

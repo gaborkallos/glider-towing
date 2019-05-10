@@ -1,6 +1,6 @@
 let startButtons = document.getElementsByClassName('startTow');
 let stopButtons = document.getElementsByClassName("stopTow");
-let url = 'http://localhost:8080';
+let url = 'https://glider-towing.herokuapp.com/';
 
 for (let i = 0; i < startButtons.length; i++) {
     startButtons[i].addEventListener('click', function () {

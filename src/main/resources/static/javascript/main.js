@@ -13,7 +13,7 @@ window.onclick = function (event) {
 };
 
 btn.addEventListener("click", function (ev) {
-    let url = 'http://localhost:8080';
+    let url = 'https://glider-towing.herokuapp.com/';
     let pilot = {
         name: document.getElementById("pilotName").value.toUpperCase(),
         isFlying: false
